@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarbonWise — Track & Reduce Your Carbon Footprint</title>
+    <meta name="description" content="Understand, track, and reduce your carbon footprint with personalized insights and actionable steps. Join the movement for a greener planet.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- ===== NAVIGATION ===== -->
+    <nav id="app-nav" aria-label="Main Navigation">
+        <div class="nav-container">
+            <a href="#" class="nav-logo" aria-label="CarbonWise Home">
+                <span class="logo-icon" aria-hidden="true">🌿</span>
+                <span class="logo-text">Carbon<span class="logo-accent">Wise</span></span>
+            </a>
+            <div class="nav-links" role="menubar">
+                <a href="#hero-section" class="nav-link active" data-section="hero" role="menuitem" data-i18n="nav_home">Home</a>
+                <a href="#calculator-section" class="nav-link" data-section="calculator" role="menuitem" data-i18n="nav_calculator">Calculator</a>
+                <a href="#dashboard-section" class="nav-link" data-section="dashboard" role="menuitem" data-i18n="nav_dashboard">Dashboard</a>
+                <a href="#actions-section" class="nav-link" data-section="actions" role="menuitem" data-i18n="nav_actions">Actions</a>
+            </div>
+            <div class="nav-controls">
+                <div class="lang-selector">
+                    <select id="lang-select" aria-label="Select Language">
+                        <option value="en">English</option>
+                        <option value="hi">हिंदी (Hindi)</option>
+                        <option value="mr">मराठी (Marathi)</option>
+                        <option value="es">Español (Spanish)</option>
+                        <option value="fr">Français (French)</option>
+                    </select>
+                </div>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                    <span class="theme-icon" aria-hidden="true">🌙</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== VOICE & SEARCH COMMAND BAR ===== -->
+    <div class="command-bar-wrapper">
+        <div class="command-bar" role="search">
+            <input type="text" id="intent-input" placeholder="Try 'I drive electric' or 'Show my dashboard'..." aria-label="Search or voice command input" data-i18n-placeholder="cmd_placeholder">
+            <button id="voice-btn" class="voice-btn" aria-label="Start Voice Input" title="Voice Input">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>
+            </button>
+            <button id="intent-submit-btn" class="intent-btn" aria-label="Submit Command" data-i18n="cmd_submit">Submit</button>
+        </div>
+        <div id="command-feedback" class="command-feedback" aria-live="polite"></div>
+    </div>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section id="hero-section" class="section hero-section" aria-labelledby="hero-title">
+        <div class="hero-bg-effects" aria-hidden="true">
+            <div class="hero-orb hero-orb-1"></div>
+            <div class="hero-orb hero-orb-2"></div>
+            <div class="hero-orb hero-orb-3"></div>
+            <div class="hero-particles" id="hero-particles"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-dot" aria-hidden="true"></span>
+                <span data-i18n="hero_badge">Track your environmental impact</span>
+            </div>
+            <h1 class="hero-title" id="hero-title">
+                <span data-i18n="hero_title_1">Understand Your</span><br>
+                <span class="gradient-text" data-i18n="hero_title_2">Carbon Footprint</span>
+            </h1>
+            <p class="hero-subtitle" data-i18n="hero_subtitle">
+                Take control of your environmental impact. Calculate, track, and reduce your carbon footprint 
+                with personalized insights and actionable steps toward a sustainable future.
+            </p>
+            <div class="hero-actions">
+                <button id="start-calculator-btn" class="btn btn-primary btn-lg" aria-label="Start Calculator">
+                    <span data-i18n="btn_calc">Calculate My Footprint</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </button>
+                <button id="learn-more-btn" class="btn btn-ghost btn-lg" data-i18n="btn_learn">Learn More</button>
+            </div>
+            <div class="hero-stats" role="group" aria-label="Global Statistics">
+                <div class="hero-stat">
+                    <span class="hero-stat-value" data-count="4.7">0</span>
+                    <span class="hero-stat-unit" data-i18n="unit_tons">tons CO₂</span>
+                    <span class="hero-stat-label" data-i18n="stat_global">Global Avg / Person</span>
+                </div>
+                <div class="hero-stat-divider" aria-hidden="true"></div>
+                <div class="hero-stat">
+                    <span class="hero-stat-value" data-count="14.7">0</span>
+                    <span class="hero-stat-unit" data-i18n="unit_tons">tons CO₂</span>
+                    <span class="hero-stat-label" data-i18n="stat_us">US Average / Person</span>
+                </div>
+                <div class="hero-stat-divider" aria-hidden="true"></div>
+                <div class="hero-stat">
+                    <span class="hero-stat-value" data-count="2.0">0</span>
+                    <span class="hero-stat-unit" data-i18n="unit_tons">tons CO₂</span>
+                    <span class="hero-stat-label" data-i18n="stat_target">Target by 2050</span>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator" id="scroll-indicator" aria-hidden="true">
+            <span data-i18n="scroll_down">Scroll to explore</span>
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- ===== CALCULATOR SECTION ===== -->
+    <section id="calculator-section" class="section calculator-section hidden">
+        <div class="section-header">
+            <span class="section-tag" data-i18n="tag_calc">Carbon Calculator</span>
+            <h2 class="section-title"><span data-i18n="calc_title_1">Calculate Your</span> <span class="gradient-text" data-i18n="calc_title_2">Footprint</span></h2>
+            <p class="section-desc" data-i18n="calc_desc">Answer a few questions about your lifestyle to get a personalized carbon footprint estimate.</p>
+        </div>
+
+        <!-- Step Progress Indicator -->
+        <div class="step-progress" aria-hidden="true">
+            <div class="step-progress-bar">
+                <div class="step-progress-fill" id="step-progress-fill"></div>
+            </div>
+            <div class="step-indicators">
+                <div class="step-indicator active" data-step="1">
+                    <div class="step-dot">1</div>
+                    <span class="step-label" data-i18n="step_transport">Transport</span>
+                </div>
+                <div class="step-indicator" data-step="2">
+                    <div class="step-dot">2</div>
+                    <span class="step-label" data-i18n="step_energy">Energy</span>
+                </div>
+                <div class="step-indicator" data-step="3">
+                    <div class="step-dot">3</div>
+                    <span class="step-label" data-i18n="step_diet">Diet</span>
+                </div>
+                <div class="step-indicator" data-step="4">
+                    <div class="step-dot">4</div>
+                    <span class="step-label" data-i18n="step_lifestyle">Lifestyle</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calculator Steps -->
+        <div class="calc-container" role="form" aria-live="polite">
+            <!-- Step 1: Transportation -->
+            <div class="calc-step active" data-step="1" id="calc-step-1">
+                <div class="calc-step-header">
+                    <div class="calc-step-icon" aria-hidden="true">🚗</div>
+                    <h3 data-i18n="q_transport_title">Transportation</h3>
+                    <p data-i18n="q_transport_desc">How do you get around? Your transportation choices have one of the biggest impacts on your carbon footprint.</p>
+                </div>
+                <div class="calc-form">
+                    <div class="form-group" role="radiogroup" aria-labelledby="label_vehicle">
+                        <label class="form-label" id="label_vehicle" data-i18n="lbl_vehicle">What type of vehicle do you primarily drive?</label>
+                        <div class="option-cards" id="vehicle-type">
+                            <div class="option-card" data-value="gasoline" tabindex="0" role="radio" aria-checked="false">
+                                <span class="option-icon" aria-hidden="true">⛽</span>
+                                <span class="option-title" data-i18n="opt_gas">Gasoline</span>
+                            </div>
+                            <div class="option-card" data-value="diesel" tabindex="0" role="radio" aria-checked="false">
+                                <span class="option-icon" aria-hidden="true">🛢️</span>
+                                <span class="option-title" data-i18n="opt_diesel">Diesel</span>
+                            </div>
+                            <div class="option-card" data-value="hybrid" tabindex="0" role="radio" aria-checked="false">
+                                <span class="option-icon" aria-hidden="true">🔋</span>
+                                <span class="option-title" data-i18n="opt_hybrid">Hybrid</span>
+                            </div>
+                            <div class="option-card" data-value="electric" tabindex="0" role="radio" aria-checked="false">
+                                <span class="option-icon" aria-hidden="true">⚡</span>
+                                <span class="option-title" data-i18n="opt_ev">Electric</span>
+                            </div>
+                            <div class="option-card" data-value="none" tabindex="0" role="radio" aria-checked="false">
+                                <span class="option-icon" aria-hidden="true">🚶</span>
+                                <span class="option-title" data-i18n="opt_none">No Car</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="weekly-miles" data-i18n="lbl_miles">Weekly driving distance (miles)</label>
+                        <div class="slider-group">
+                            <input type="range" id="weekly-miles" class="custom-slider" min="0" max="500" value="100" step="10">
+                            <div class="slider-value"><span id="weekly-miles-val">100</span> <span data-i18n="lbl_mi_week">mi/week</span></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="flights-year" data-i18n="lbl_flights">Number of round-trip flights per year</label>
+                        <div class="slider-group">
+                            <input type="range" id="flights-year" class="custom-slider" min="0" max="20" value="2" step="1">
+                            <div class="slider-value"><span id="flights-year-val">2</span> <span data-i18n="lbl_flights_yr">flights/year</span></div>
+                        </div>
+                    </div>
+                    <div class="form-group" role="radiogroup" aria-labelledby="label_transit">
+                        <label class="form-label" id="label_transit" data-i18n="lbl_transit">Do you use public transit regularly?</label>
+                        <div class="toggle-group">
+                            <div class="toggle-btn active" data-value="no" id="transit-no" tabindex="0" role="radio" aria-checked="true" data-i18n="opt_no">No</div>
+                            <div class="toggle-btn" data-value="sometimes" id="transit-sometimes" tabindex="0" role="radio" aria-checked="false" data-i18n="opt_sometimes">Sometimes</div>
+                            <div class="toggle-btn" data-value="daily" id="transit-daily" tabindex="0" role="radio" aria-checked="false" data-i18n="opt_daily">Daily</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Energy -->
+            <div class="calc-step" data-step="2" id="calc-step-2">
+                <div class="calc-step-header">
+                    <div class="calc-step-icon" aria-hidden="true">⚡</div>
+                    <h3 data-i18n="q_energy_title">Home Energy</h3>
+                    <p data-i18n="q_energy_desc">Your home energy use — heating, cooling, and electricity — is a major part of your footprint.</p>
+                </div>
+                <div class="calc-form">
+                    <div class="form-group">
+                        <label class="form-label" for="electricity-bill" data-i18n="lbl_elec_bill">Monthly electricity bill ($)</label>
+                        <div class="slider-group">
+                            <input type="range" id="electricity-bill" class="custom-slider" min="0" max="500" value="120" step="10">
+                            <div class="slider-value">$<span id="electricity-bill-val">120</span>/<span data-i18n="lbl_month">month</span></div>
+                        </div>
+                    </div>
+                    <div class="form-group" role="radiogroup" aria-labelledby="label_heat">
+                        <label class="form-label" id="label_heat" data-i18n="lbl_heat">Primary heating source</label>
+                        <div class="option-cards" id="heating-source">
+                            <div class="option-card" data-value="natural-gas" tabindex="0" role="radio" aria-checked="false">
+                                <span class="option-icon" aria-hidden="true">🔥</span>
+                                <span class="option-title" data-i18n="opt_natgas">Natural Gas</span>
+                            </div>
+                            <div class="option-card" data-value="electric" tabindex="0" role="radio" aria-checked="false">
+                                <span class="option-icon" aria-hidden="true">⚡</span>
+                                <span class="option-title" data-i18n="opt_elecheat">Electric</span>
+                            </div>
+                            <div class="option-card" data-value="oil" tabindex="0" role="radio" aria-checked="false">
+                                <span class="option-icon" aria-hidden="true">🛢️</span>
+                                <span class="option-title" data-i18n="opt_oil">Oil</span>
+                            </div>
+                            <div class="option-card" data-value="renewable" tabindex="0" role="radio" aria-checked="false">
+                                <span class="option-icon" aria-hidden="true">☀️</span>
+                                <span class="option-title" data-i18n="opt_renew">Renewable</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="home-size" data-i18n="lbl_homesize">Home size (sq ft)</label>
+                        <div class="slider-group">
+                            <input type="range" id="home-size" class="custom-slider" min="200" max="5000" value="1500" step="100">
+                            <div class="slider-value"><span id="home-size-val">1500</span> <span data-i18n="lbl_sqft">sq ft</span></div>
+                        </div>
+                    </div>
+                    <div class="form-group" role="radiogroup" aria-labelledby="label_renew_use">
+                        <label class="form-label" id="label_renew_use" data-i18n="lbl_renew_use">Do you use renewable energy?</label>
+                        <div class="toggle-group">
+                            <div class="toggle-btn active" data-value="no" id="renewable-no" tabindex="0" role="radio" aria-checked="true" data-i18n="opt_no">No</div>
+                            <div class="toggle-btn" data-value="partial" id="renewable-partial" tabindex="0" role="radio" aria-checked="false" data-i18n="opt_partial">Partially</div>
+                            <div class="toggle-btn" data-value="yes" id="renewable-yes" tabindex="0" role="radio" aria-checked="false" data-i18n="opt_yes100">Yes, 100%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Diet -->
+            <div class="calc-step" data-step="3" id="calc-step-3">
+                <div class="calc-step-header">
+                    <div class="calc-step-icon" aria-hidden="true">🥗</div>
+                    <h3 data-i18n="q_diet_title">Diet & Food</h3>
+                    <p data-i18n="q_diet_desc">What you eat matters. Food production is responsible for about 26% of global greenhouse gas emissions.</p>
+                </div>
+                <div class="calc-form">
+                    <div class="form-group" role="radiogroup" aria-labelledby="label_diet">
+                        <label class="form-label" id="label_diet" data-i18n="lbl_diet">How would you describe your diet?</label>
+                        <div class="option-cards" id="diet-type">
+                            <div class="option-card" data-value="heavy-meat" tabindex="0" role="radio" aria-checked="false">
+                                <span class="option-icon" aria-hidden="true">🥩</span>
+                                <span class="option-title" data-i18n="opt_heavymeat">Heavy Meat</span>
+                            </div>
+                            <div class="option-card" data-value="average" tabindex="0" role="radio" aria-checked="false">
+                                <span class="option-icon" aria-hidden="true">🍗</span>
+                                <span class="option-title" data-i18n="opt_avgmeat">Average</span>
+                            </div>
+                            <div class="option-card" data-value="low-meat" tabindex="0" role="radio" aria-checked="false">
+                                <span class="option-icon" aria-hidden="true">🐟</span>
+                                <span class="option-title" data-i18n="opt_lowmeat">Low Meat</span>
+                            </div>
+                            <div class="option-card" data-value="vegetarian" tabindex="0" role="radio" aria-checked="false">
+                                <span class="option-icon" aria-hidden="true">🥬</span>
+                                <span class="option-title" data-i18n="opt_veg">Vegetarian</span>
+                            </div>
+                            <div class="option-card" data-value="vegan" tabindex="0" role="radio" aria-checked="false">
+                                <span class="option-icon" aria-hidden="true">🌱</span>
+                                <span class="option-title" data-i18n="opt_vegan">Vegan</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" role="radiogroup" aria-labelledby="label_local">
+                        <label class="form-label" id="label_local" data-i18n="lbl_local">How often do you buy locally-sourced food?</label>
+                        <div class="toggle-group">
+                            <div class="toggle-btn active" data-value="rarely" id="local-rarely" tabindex="0" role="radio" aria-checked="true" data-i18n="opt_rarely">Rarely</div>
+                            <div class="toggle-btn" data-value="sometimes" id="local-sometimes" tabindex="0" role="radio" aria-checked="false" data-i18n="opt_sometimes">Sometimes</div>
+                            <div class="toggle-btn" data-value="mostly" id="local-mostly" tabindex="0" role="radio" aria-checked="false" data-i18n="opt_mostly">Mostly</div>
+                        </div>
+                    </div>
+                    <div class="form-group" role="radiogroup" aria-labelledby="label_waste">
+                        <label class="form-label" id="label_waste" data-i18n="lbl_waste">How much food do you typically waste?</label>
+                        <div class="toggle-group">
+                            <div class="toggle-btn" data-value="a-lot" id="waste-alot" tabindex="0" role="radio" aria-checked="false" data-i18n="opt_alot">A Lot</div>
+                            <div class="toggle-btn active" data-value="some" id="waste-some" tabindex="0" role="radio" aria-checked="true" data-i18n="opt_some">Some</div>
+                            <div class="toggle-btn" data-value="minimal" id="waste-minimal" tabindex="0" role="radio" aria-checked="false" data-i18n="opt_minimal">Minimal</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Lifestyle -->
+            <div class="calc-step" data-step="4" id="calc-step-4">
+                <div class="calc-step-header">
+                    <div class="calc-step-icon" aria-hidden="true">🏠</div>
+                    <h3 data-i18n="q_life_title">Lifestyle & Consumption</h3>
+                    <p data-i18n="q_life_desc">Your shopping habits, waste management, and general lifestyle choices also contribute to your footprint.</p>
+                </div>
+                <div class="calc-form">
+                    <div class="form-group" role="radiogroup" aria-labelledby="label_spend">
+                        <label class="form-label" id="label_spend" data-i18n="lbl_spend">How much do you spend on new goods per month?</label>
+                        <div class="option-cards" id="spending-habits">
+                            <div class="option-card" data-value="minimal" tabindex="0" role="radio" aria-checked="false">
+                                <span class="option-icon" aria-hidden="true">🪶</span>
+                                <span class="option-title" data-i18n="opt_minspend">Minimal</span>
+                            </div>
+                            <div class="option-card" data-value="moderate" tabindex="0" role="radio" aria-checked="false">
+                                <span class="option-icon" aria-hidden="true">🛍️</span>
+                                <span class="option-title" data-i18n="opt_modspend">Moderate</span>
+                            </div>
+                            <div class="option-card" data-value="high" tabindex="0" role="radio" aria-checked="false">
+                                <span class="option-icon" aria-hidden="true">💎</span>
+                                <span class="option-title" data-i18n="opt_highspend">High</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" role="radiogroup" aria-labelledby="label_recycle">
+                        <label class="form-label" id="label_recycle" data-i18n="lbl_recycle">Do you recycle and compost?</label>
+                        <div class="toggle-group">
+                            <div class="toggle-btn active" data-value="no" id="recycle-no" tabindex="0" role="radio" aria-checked="true" data-i18n="opt_no">No</div>
+                            <div class="toggle-btn" data-value="recycle-only" id="recycle-only" tabindex="0" role="radio" aria-checked="false" data-i18n="opt_reconly">Recycle Only</div>
+                            <div class="toggle-btn" data-value="both" id="recycle-both" tabindex="0" role="radio" aria-checked="false" data-i18n="opt_both">Both</div>
+                        </div>
+                    </div>
+                    <div class="form-group" role="radiogroup" aria-labelledby="label_secondhand">
+                        <label class="form-label" id="label_secondhand" data-i18n="lbl_secondhand">How often do you buy second-hand or refurbished items?</label>
+                        <div class="toggle-group">
+                            <div class="toggle-btn active" data-value="never" id="secondhand-never" tabindex="0" role="radio" aria-checked="true" data-i18n="opt_never">Never</div>
+                            <div class="toggle-btn" data-value="sometimes" id="secondhand-sometimes" tabindex="0" role="radio" aria-checked="false" data-i18n="opt_sometimes">Sometimes</div>
+                            <div class="toggle-btn" data-value="often" id="secondhand-often" tabindex="0" role="radio" aria-checked="false" data-i18n="opt_often">Often</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="calc-nav">
+                <button class="btn btn-ghost" id="calc-prev-btn" disabled aria-label="Previous Step">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+                    <span data-i18n="btn_prev">Previous</span>
+                </button>
+                <button class="btn btn-primary" id="calc-next-btn" aria-label="Next Step">
+                    <span data-i18n="btn_next">Next</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </button>
+                <button class="btn btn-primary btn-glow hidden" id="calc-submit-btn" aria-label="Submit Results">
+                    <span data-i18n="btn_submit">See My Results</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== DASHBOARD SECTION ===== -->
+    <section id="dashboard-section" class="section dashboard-section hidden" aria-labelledby="dashboard-title">
+        <div class="section-header">
+            <span class="section-tag" data-i18n="tag_results">Your Results</span>
+            <h2 class="section-title"><span data-i18n="dash_title_1">Your Carbon</span> <span class="gradient-text" data-i18n="dash_title_2">Dashboard</span></h2>
+            <p class="section-desc" data-i18n="dash_desc">Here's a breakdown of your estimated annual carbon footprint and how it compares.</p>
+            <button id="speak-results-btn" class="btn btn-ghost" aria-label="Read results out loud">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                <span data-i18n="btn_speak_results">Read Results Out Loud</span>
+            </button>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Total Footprint Card -->
+            <div class="dash-card total-card">
+                <div class="card-glow"></div>
+                <div class="total-card-content">
+                    <span class="dash-card-label" data-i18n="lbl_total_footprint">Your Annual Carbon Footprint</span>
+                    <div class="total-value-wrap">
+                        <span class="total-value" id="total-footprint" aria-live="polite">0.0</span>
+                        <span class="total-unit" data-i18n="unit_tons_yr">tons CO₂e/year</span>
+                    </div>
+                    <div class="total-rating" id="total-rating" aria-live="polite">
+                        <span class="rating-badge">Calculating...</span>
+                    </div>
+                    <div class="comparison-bar-container" aria-hidden="true">
+                        <div class="comparison-bar">
+                            <div class="comparison-marker comparison-you" id="comparison-you" style="left: 0%">
+                                <span class="marker-label" data-i18n="marker_you">You</span>
+                                <div class="marker-dot"></div>
+                            </div>
+                            <div class="comparison-marker comparison-avg" style="left: 50%">
+                                <div class="marker-dot"></div>
+                                <span class="marker-label" data-i18n="marker_avg">US Avg</span>
+                            </div>
+                            <div class="comparison-marker comparison-target" style="left: 13.6%">
+                                <div class="marker-dot"></div>
+                                <span class="marker-label" data-i18n="marker_target">Target</span>
+                            </div>
+                            <div class="comparison-gradient"></div>
+                        </div>
+                        <div class="comparison-labels">
+                            <span>0</span>
+                            <span>7.5</span>
+                            <span>14.7t</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Breakdown Donut Chart -->
+            <div class="dash-card breakdown-card">
+                <h3 class="dash-card-title" data-i18n="dash_breakdown">Breakdown by Category</h3>
+                <div class="donut-container" aria-hidden="true">
+                    <canvas id="donut-chart" width="220" height="220"></canvas>
+                    <div class="donut-center">
+                        <span class="donut-center-val" id="donut-center-val">0</span>
+                        <span class="donut-center-label" data-i18n="unit_tons_short">tons</span>
+                    </div>
+                </div>
+                <div class="donut-legend" id="donut-legend" aria-hidden="true"></div>
+            </div>
+
+            <!-- Category Bars -->
+            <div class="dash-card bars-card">
+                <h3 class="dash-card-title" data-i18n="dash_bars">Emissions by Category</h3>
+                <div class="category-bars" id="category-bars" aria-live="polite"></div>
+            </div>
+
+            <!-- Equivalents Card -->
+            <div class="dash-card equiv-card">
+                <h3 class="dash-card-title" data-i18n="dash_equiv">What Your Footprint Equals</h3>
+                <div class="equiv-grid" id="equiv-grid" aria-live="polite">
+                    <div class="equiv-item">
+                        <span class="equiv-icon" aria-hidden="true">🌳</span>
+                        <span class="equiv-value" id="equiv-trees">0</span>
+                        <span class="equiv-label" data-i18n="equiv_trees">Trees needed to offset</span>
+                    </div>
+                    <div class="equiv-item">
+                        <span class="equiv-icon" aria-hidden="true">🚗</span>
+                        <span class="equiv-value" id="equiv-driving">0</span>
+                        <span class="equiv-label" data-i18n="equiv_driving">Miles of driving</span>
+                    </div>
+                    <div class="equiv-item">
+                        <span class="equiv-icon" aria-hidden="true">💡</span>
+                        <span class="equiv-value" id="equiv-bulbs">0</span>
+                        <span class="equiv-label" data-i18n="equiv_bulbs">LED bulbs for a year</span>
+                    </div>
+                    <div class="equiv-item">
+                        <span class="equiv-icon" aria-hidden="true">✈️</span>
+                        <span class="equiv-value" id="equiv-flights">0</span>
+                        <span class="equiv-label" data-i18n="equiv_flights">NY→London flights</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recalculate -->
+            <div class="dash-card recalc-card">
+                <p data-i18n="dash_recalc_msg">Not happy with the results? Adjust your inputs and try again.</p>
+                <button class="btn btn-ghost" id="recalculate-btn" aria-label="Recalculate footprint">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                    <span data-i18n="btn_recalc">Recalculate</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ACTIONS SECTION ===== -->
+    <section id="actions-section" class="section actions-section hidden" aria-labelledby="actions-title">
+        <div class="section-header">
+            <span class="section-tag" data-i18n="tag_actions">Take Action</span>
+            <h2 class="section-title"><span data-i18n="act_title_1">Reduce Your</span> <span class="gradient-text" data-i18n="act_title_2">Impact</span></h2>
+            <p class="section-desc" data-i18n="act_desc">Personalized actions based on your footprint. Complete actions to earn points and badges!</p>
+        </div>
+
+        <!-- Points & Badges Bar -->
+        <div class="gamification-bar" aria-live="polite">
+            <div class="points-display">
+                <span class="points-icon" aria-hidden="true">⭐</span>
+                <span class="points-value" id="total-points">0</span>
+                <span class="points-label" data-i18n="lbl_points">Points</span>
+            </div>
+            <div class="badges-display" id="badges-display" aria-label="Earned Badges">
+                <!-- Badges injected by JS -->
+            </div>
+            <div class="level-display">
+                <span class="level-label" data-i18n="lbl_level">Level</span>
+                <span class="level-value" id="user-level">1</span>
+                <div class="level-progress-bar" aria-hidden="true">
+                    <div class="level-progress-fill" id="level-progress-fill" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Categories -->
+        <div class="actions-tabs" role="tablist" aria-label="Action categories">
+            <button class="action-tab active" data-category="all" role="tab" aria-selected="true" data-i18n="tab_all">All</button>
+            <button class="action-tab" data-category="transport" role="tab" aria-selected="false" data-i18n="tab_transport">🚗 Transport</button>
+            <button class="action-tab" data-category="energy" role="tab" aria-selected="false" data-i18n="tab_energy">⚡ Energy</button>
+            <button class="action-tab" data-category="diet" role="tab" aria-selected="false" data-i18n="tab_diet">🥗 Diet</button>
+            <button class="action-tab" data-category="lifestyle" role="tab" aria-selected="false" data-i18n="tab_lifestyle">🏠 Lifestyle</button>
+        </div>
+
+        <!-- Actions List -->
+        <div class="actions-list" id="actions-list" role="list">
+            <!-- Actions injected by JS -->
+        </div>
+    </section>
+
+    <!-- ===== TEST SUITE (HIDDEN BY DEFAULT) ===== -->
+    <div class="test-toggle-wrapper">
+        <button id="test-suite-toggle" class="btn btn-ghost btn-sm" aria-label="Toggle Developer Test Suite">🧪 Dev Test Suite</button>
+    </div>
+    <section id="test-suite-section" class="section test-suite-section hidden" aria-labelledby="test-suite-title">
+        <div class="section-header">
+            <h2 class="section-title">Automated <span class="gradient-text">Test Suite</span></h2>
+            <p class="section-desc">Runs 100 validation scenarios across calculation logic, security, and translations.</p>
+            <button id="run-tests-btn" class="btn btn-primary" style="margin-top: 1rem;">Run 100 Tests</button>
+        </div>
+        <div class="test-stats" id="test-stats">
+            <div class="test-stat pass"><span id="test-pass-count">0</span> Passed</div>
+            <div class="test-stat fail"><span id="test-fail-count">0</span> Failed</div>
+            <div class="test-stat total"><span id="test-total-count">0</span> Total</div>
+        </div>
+        <div class="test-log-container">
+            <table class="test-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Category</th>
+                        <th>Scenario</th>
+                        <th>Result</th>
+                        <th>Output</th>
+                    </tr>
+                </thead>
+                <tbody id="test-log-body">
+                    <!-- Logs injected by JS -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="app-footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <span class="logo-icon" aria-hidden="true">🌿</span>
+                <span class="logo-text">Carbon<span class="logo-accent">Wise</span></span>
+            </div>
+            <p class="footer-text" data-i18n="footer_text">Built to inspire climate action. Every small step counts toward a sustainable future.</p>
+            <p class="footer-copy">© 2026 CarbonWise. Data based on EPA and IPCC estimates.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

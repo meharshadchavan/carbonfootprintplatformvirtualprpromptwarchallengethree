@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarbonWise — Test Suite</title>
+    <style>
+        /* ===== Dark Theme Test Runner ===== */
+        :root {
+            --bg-primary: #0a0f1a;
+            --bg-secondary: #111827;
+            --bg-card: #1a2233;
+            --bg-card-hover: #1f2a3f;
+            --border-color: #2a3548;
+            --text-primary: #f0f4f8;
+            --text-secondary: #8899aa;
+            --text-muted: #5a6a7a;
+            --green: #10b981;
+            --green-bg: rgba(16, 185, 129, 0.12);
+            --green-border: rgba(16, 185, 129, 0.25);
+            --red: #ef4444;
+            --red-bg: rgba(239, 68, 68, 0.12);
+            --red-border: rgba(239, 68, 68, 0.25);
+            --amber: #f59e0b;
+            --amber-bg: rgba(245, 158, 11, 0.12);
+            --blue: #3b82f6;
+            --blue-bg: rgba(59, 130, 246, 0.1);
+            --purple: #a78bfa;
+            --teal: #06b6d4;
+            --gradient: linear-gradient(135deg, #10b981, #06b6d4);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .app-header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .header-brand .logo {
+            font-size: 1.5rem;
+        }
+
+        .header-brand h1 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-brand .subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .run-btn {
+            padding: 0.65rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background: var(--gradient);
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .run-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .run-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            max-width: 1200px;
+            margin: 1.5rem auto;
+            padding: 0 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .stat-card .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 0.35rem;
+        }
+
+        .stat-card .stat-label {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-total .stat-value { color: var(--blue); }
+        .stat-passed .stat-value { color: var(--green); }
+        .stat-failed .stat-value { color: var(--red); }
+        .stat-time .stat-value { color: var(--amber); font-size: 1.5rem; }
+
+        /* Progress Bar */
+        .progress-container {
+            max-width: 1200px;
+            margin: 0 auto 1.5rem;
+            padding: 0 2rem;
+        }
+
+        .progress-bar-wrap {
+            background: var(--bg-card);
+            border-radius: 999px;
+            height: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 999px;
+            background: var(--gradient);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        /* Category Groups */
+        .categories-container {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 0 2rem;
+        }
+
+        .category-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.85rem 1.25rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px 10px 0 0;
+            cursor: pointer;
+            transition: background 0.15s;
+            user-select: none;
+        }
+
+        .category-header:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .category-header .cat-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .category-header .cat-icon {
+            font-size: 1.1rem;
+        }
+
+        .category-header .cat-counts {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.8rem;
+        }
+
+        .cat-count-badge {
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.72rem;
+        }
+
+        .cat-count-badge.pass {
+            background: var(--green-bg);
+            color: var(--green);
+            border: 1px solid var(--green-border);
+        }
+
+        .cat-count-badge.fail {
+            background: var(--red-bg);
+            color: var(--red);
+            border: 1px solid var(--red-border);
+        }
+
+        .category-header .cat-chevron {
+            color: var(--text-muted);
+            transition: transform 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .category-group.collapsed .cat-chevron {
+            transform: rotate(-90deg);
+        }
+
+        .category-group.collapsed .test-list {
+            display: none;
+        }
+
+        .test-list {
+            border: 1px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 10px 10px;
+            overflow: hidden;
+        }
+
+        .test-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.85rem;
+            padding: 0.75rem 1.25rem;
+            border-bottom: 1px solid rgba(42, 53, 72, 0.5);
+            font-size: 0.88rem;
+            transition: background 0.1s;
+        }
+
+        .test-item:last-child { border-bottom: none; }
+        .test-item:hover { background: rgba(255, 255, 255, 0.02); }
+
+        .test-item .test-icon {
+            font-size: 1rem;
+            flex-shrink: 0;
+            margin-top: 0.1rem;
+            width: 22px;
+            text-align: center;
+        }
+
+        .test-item .test-number {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 600;
+            min-width: 28px;
+            flex-shrink: 0;
+            margin-top: 0.15rem;
+        }
+
+        .test-item .test-name {
+            flex: 1;
+            color: var(--text-secondary);
+        }
+
+        .test-item.passed .test-name { color: var(--text-primary); }
+        .test-item.failed .test-name { color: var(--red); }
+
+        .test-item .test-error {
+            font-size: 0.78rem;
+            color: var(--red);
+            margin-top: 0.3rem;
+            padding: 0.4rem 0.7rem;
+            background: var(--red-bg);
+            border-radius: 6px;
+            border: 1px solid var(--red-border);
+            word-break: break-word;
+        }
+
+        .test-item.pending .test-icon { color: var(--text-muted); }
+        .test-item.passed .test-icon { color: var(--green); }
+        .test-item.failed .test-icon { color: var(--red); }
+
+        /* Initial state message */
+        .initial-message {
+            text-align: center;
+            padding: 4rem 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .initial-message .msg-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .initial-message h2 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .initial-message p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Summary badge after completion */
+        .summary-badge {
+            max-width: 1200px;
+            margin: 0 auto 1.5rem;
+            padding: 0 2rem;
+        }
+
+        .summary-inner {
+            padding: 1.25rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .summary-inner.all-pass {
+            background: var(--green-bg);
+            border: 1px solid var(--green-border);
+            color: var(--green);
+        }
+
+        .summary-inner.has-fails {
+            background: var(--red-bg);
+            border: 1px solid var(--red-border);
+            color: var(--red);
+        }
+
+        .hidden { display: none !important; }
+
+        @media (max-width: 768px) {
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+            .header-top { flex-direction: column; gap: 1rem; }
+        }
+
+        @media (max-width: 480px) {
+            .stats-bar { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="app-header">
+        <div class="header-top">
+            <div class="header-brand">
+                <span class="logo">🧪</span>
+                <div>
+                    <h1>CarbonWise Test Suite</h1>
+                    <span class="subtitle">100 tests · 8 categories</span>
+                </div>
+            </div>
+            <button class="run-btn" id="run-btn" onclick="startTests()">▶ Run All Tests</button>
+        </div>
+    </header>
+
+    <!-- ===== STATS ===== -->
+    <div class="stats-bar" id="stats-bar">
+        <div class="stat-card stat-total">
+            <div class="stat-value" id="stat-total">100</div>
+            <div class="stat-label">Total Tests</div>
+        </div>
+        <div class="stat-card stat-passed">
+            <div class="stat-value" id="stat-passed">0</div>
+            <div class="stat-label">Passed</div>
+        </div>
+        <div class="stat-card stat-failed">
+            <div class="stat-value" id="stat-failed">0</div>
+            <div class="stat-label">Failed</div>
+        </div>
+        <div class="stat-card stat-time">
+            <div class="stat-value" id="stat-time">—</div>
+            <div class="stat-label">Duration</div>
+        </div>
+    </div>
+
+    <!-- ===== PROGRESS ===== -->
+    <div class="progress-container">
+        <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+        <div class="progress-label">
+            <span id="progress-text">Ready to run</span>
+            <span id="progress-pct">0%</span>
+        </div>
+    </div>
+
+    <!-- ===== SUMMARY BADGE (hidden initially) ===== -->
+    <div class="summary-badge hidden" id="summary-badge">
+        <div class="summary-inner" id="summary-inner"></div>
+    </div>
+
+    <!-- ===== TEST RESULTS ===== -->
+    <div class="categories-container" id="categories-container">
+        <div class="initial-message" id="initial-message">
+            <div class="msg-icon">🌿</div>
+            <h2>CarbonWise Test Runner</h2>
+            <p>Click <strong>Run All Tests</strong> to execute the full test suite covering security, calculations, edge cases, i18n, voice, accessibility, gamification, and performance.</p>
+        </div>
+    </div>
+
+    <!-- ===== LOAD APP MODULES ===== -->
+    <!--
+        The app is a single IIFE in app.js. We load the HTML structure first
+        by embedding the app's index.html content into a hidden container,
+        then load the scripts. i18n.js and voice-engine.js are loaded if they
+        exist; errors are silently caught via onerror handlers.
+    -->
+
+    <!-- Hidden container replicating the app DOM for tests to inspect -->
+    <div id="app-test-container" style="position:absolute;left:-9999px;top:-9999px;width:1200px;">
+        <!-- Injected by loadAppDOM() -->
+    </div>
+
+    <script>
+        // Load the actual app's HTML DOM into the hidden test container
+        (function loadAppDOM() {
+            const container = document.getElementById('app-test-container');
+            // We fetch the index.html to replicate the DOM
+            fetch('../index.html')
+                .then(r => r.text())
+                .then(html => {
+                    // Extract body content
+                    const match = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+                    if (match) {
+                        // Remove script tags to avoid re-executing
+                        const bodyContent = match[1].replace(/<script[\s\S]*?<\/script>/gi, '');
+                        container.innerHTML = bodyContent;
+                    }
+                })
+                .catch(() => {
+                    // If fetch fails (file:// protocol), we still have the test document's own elements
+                    console.warn('Could not fetch index.html — DOM tests will use test document elements');
+                });
+        })();
+    </script>
+
+    <!-- Load app scripts (silently skip missing files) -->
+    <script src="../i18n.js" onerror="console.log('i18n.js not found — i18n tests will use fallback logic')"></script>
+    <script src="../voice-engine.js" onerror="console.log('voice-engine.js not found — voice tests will use fallback logic')"></script>
+    <script src="../app.js" onerror="console.log('app.js not found — calculation tests will use independent logic')"></script>
+
+    <!-- Load test suite -->
+    <script src="tests.js"></script>
+
+    <script>
+        // ===== TEST RUNNER UI LOGIC =====
+
+        const CATEGORY_ICONS = {
+            'Security': '🛡️',
+            'Calculation Accuracy': '🔢',
+            'Edge Cases': '⚠️',
+            'i18n / Translation': '🌐',
+            'Voice & Intent Engine': '🎤',
+            'Accessibility': '♿',
+            'Actions & Gamification': '🏆',
+            'Responsive & Performance': '📱'
+        };
+
+        let isRunning = false;
+
+        function startTests() {
+            if (isRunning) return;
+            isRunning = true;
+
+            const runBtn = document.getElementById('run-btn');
+            runBtn.disabled = true;
+            runBtn.textContent = '⏳ Running...';
+
+            // Clear UI
+            document.getElementById('initial-message')?.remove();
+            document.getElementById('summary-badge').classList.add('hidden');
+            document.getElementById('stat-passed').textContent = '0';
+            document.getElementById('stat-failed').textContent = '0';
+            document.getElementById('stat-time').textContent = '...';
+            document.getElementById('progress-fill').style.width = '0%';
+            document.getElementById('progress-text').textContent = 'Running...';
+            document.getElementById('progress-pct').textContent = '0%';
+
+            // Build category containers
+            const container = document.getElementById('categories-container');
+            container.innerHTML = '';
+
+            const runner = window.CW_TestRunner;
+            const categories = {};
+            runner.tests.forEach((t, i) => {
+                if (!categories[t.category]) categories[t.category] = [];
+                categories[t.category].push({ ...t, index: i + 1 });
+            });
+
+            // Create DOM for each category
+            const catElements = {};
+            Object.entries(categories).forEach(([catName, tests]) => {
+                const group = document.createElement('div');
+                group.className = 'category-group';
+                group.dataset.category = catName;
+
+                const icon = CATEGORY_ICONS[catName] || '📋';
+
+                group.innerHTML = `
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        <span class="cat-name">
+                            <span class="cat-icon">${icon}</span>
+                            ${catName}
+                        </span>
+                        <div class="cat-counts">
+                            <span class="cat-count-badge pass" data-cat-pass="${catName}">0 ✓</span>
+                            <span class="cat-count-badge fail" data-cat-fail="${catName}">0 ✗</span>
+                            <span class="cat-chevron">▼</span>
+                        </div>
+                    </div>
+                    <div class="test-list">
+                        ${tests.map(t => `
+                            <div class="test-item pending" data-test-index="${t.index}" id="test-${t.index}">
+                                <span class="test-icon">○</span>
+                                <span class="test-number">#${t.index}</span>
+                                <div>
+                                    <div class="test-name">${escapeHtml(t.name)}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+
+                container.appendChild(group);
+                catElements[catName] = group;
+            });
+
+            // Category pass/fail tracking
+            const catCounts = {};
+            Object.keys(categories).forEach(c => catCounts[c] = { pass: 0, fail: 0 });
+
+            const startTime = performance.now();
+
+            runner.runAll(
+                // onProgress
+                (result, stats, allResults) => {
+                    // Update test item
+                    const el = document.getElementById(`test-${result.index}`);
+                    if (el) {
+                        el.className = `test-item ${result.status}`;
+                        el.querySelector('.test-icon').textContent = result.status === 'passed' ? '✓' : '✗';
+
+                        if (result.error) {
+                            const errDiv = document.createElement('div');
+                            errDiv.className = 'test-error';
+                            errDiv.textContent = result.error;
+                            el.querySelector('div').appendChild(errDiv);
+                        }
+                    }
+
+                    // Update stats
+                    document.getElementById('stat-passed').textContent = stats.passed;
+                    document.getElementById('stat-failed').textContent = stats.failed;
+
+                    const done = stats.passed + stats.failed;
+                    const pct = Math.round((done / stats.total) * 100);
+                    document.getElementById('progress-fill').style.width = pct + '%';
+                    document.getElementById('progress-pct').textContent = pct + '%';
+                    document.getElementById('progress-text').textContent = `Running test ${done}/${stats.total}`;
+
+                    // Update elapsed time
+                    const elapsed = ((performance.now() - startTime) / 1000).toFixed(1);
+                    document.getElementById('stat-time').textContent = elapsed + 's';
+
+                    // Category counts
+                    if (result.status === 'passed') catCounts[result.category].pass++;
+                    else catCounts[result.category].fail++;
+
+                    const passBadge = document.querySelector(`[data-cat-pass="${result.category}"]`);
+                    const failBadge = document.querySelector(`[data-cat-fail="${result.category}"]`);
+                    if (passBadge) passBadge.textContent = catCounts[result.category].pass + ' ✓';
+                    if (failBadge) failBadge.textContent = catCounts[result.category].fail + ' ✗';
+                },
+
+                // onComplete
+                (stats, allResults) => {
+                    const elapsed = ((performance.now() - startTime) / 1000).toFixed(1);
+                    document.getElementById('stat-time').textContent = elapsed + 's';
+                    document.getElementById('progress-text').textContent = 'Complete';
+
+                    // Show summary
+                    const summaryBadge = document.getElementById('summary-badge');
+                    const summaryInner = document.getElementById('summary-inner');
+                    summaryBadge.classList.remove('hidden');
+
+                    if (stats.failed === 0) {
+                        summaryInner.className = 'summary-inner all-pass';
+                        summaryInner.textContent = `🎉 All ${stats.total} tests passed in ${elapsed}s!`;
+                    } else {
+                        summaryInner.className = 'summary-inner has-fails';
+                        summaryInner.textContent = `⚠ ${stats.failed} of ${stats.total} tests failed (${stats.passed} passed) in ${elapsed}s`;
+                    }
+
+                    // Auto-collapse passing categories, expand failing ones
+                    Object.entries(catCounts).forEach(([catName, counts]) => {
+                        if (counts.fail === 0 && counts.pass > 0) {
+                            const group = document.querySelector(`.category-group[data-category="${catName}"]`);
+                            if (group) group.classList.add('collapsed');
+                        }
+                    });
+
+                    runBtn.disabled = false;
+                    runBtn.textContent = '🔄 Re-run Tests';
+                    isRunning = false;
+                }
+            );
+        }
+
+        function toggleCategory(headerEl) {
+            headerEl.parentElement.classList.toggle('collapsed');
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>
