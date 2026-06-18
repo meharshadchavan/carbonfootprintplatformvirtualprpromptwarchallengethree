@@ -57,10 +57,3 @@ Since CarbonWise is a static application, setting it up for local development is
     *Alternatively, use the "Live Server" extension in VS Code.*
 3.  Open your browser and navigate to `http://localhost:8000`.
 
-### Deployment
-
-This project is configured for rapid deployment via **Firebase Hosting**.
-
-1.  Install Firebase CLI: `npm install -g firebase-tools`
-2.  Login to Firebase: `firebase login`
-3.  Deploy the app: `firebase deploy --only hosting`
